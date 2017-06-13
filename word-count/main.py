@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # TODO:
 # 1. Ask about the encoding support
 
@@ -7,8 +9,8 @@ from text import words
 
 
 # FILE_NAME='test.log'
-FILE_NAME='test3'
-CHUNK_SIZE=10000
+FILE_NAME='data/test3'
+CHUNK_SIZE=5000000
 
 
 def process_file(filename, register, chunk_size):

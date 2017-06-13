@@ -1,46 +1,21 @@
+#!/usr/bin/env python3
+"""Holds several genrators and iterators for walking through a file by char or by word"""
+
 def words(filename, chunk_size):
+    """Generator returning all the words contaned in a file."""
     word = []
-    for ch in chars(filename, chunk_size):
-        if ch.isalpha():
-            word.append(ch)
+    for char in Chars(filename, chunk_size):
+        if char.isalpha():
+            word.append(char)
         else:
             if word:
                 yield ''.join(word)
                 word = []
 
-class _words(object):
 
-    def __init__(self, filename):
-        self.filename = filename
+class Chars(object):
 
-    def __iter__(self):
-        return WordIterator(self.filename, 1)
-
-class WordIterator(object):
-
-
-    def __init__(self, filename, chunk_size=1):
-        self.filename = filename
-        self.chunk_size = chunk_size
-        self.file = open(filename, 'r')
-        self.chunk=''
-        self.chunk_index = 0
-
-
-    def next_char(self):
-        if len(self.chunk) == self.chunk_index:
-            self.chunk = self.file.read(self.chunk_size)
-            self.chunk_index = 0
-
-            if not self.chunk:
-                return None
-
-        result = self.chunk[self.chunk_index]
-        self.chunk_index += 1
-        return result
-
-
-class chars(object):
+    """Iterator factory for getting the chars in a file one by one"""
 
     def __init__(self, filename, chunk_size=1):
         self.filename = filename
@@ -49,7 +24,9 @@ class chars(object):
     def __iter__(self):
         return CharIterator(self.filename, self.chunk_size)
 
+
 class CharIterator(object):
+    """Iterator that returns the content of a file char by char"""
 
 
     def __init__(self, filename, chunk_size=1):
