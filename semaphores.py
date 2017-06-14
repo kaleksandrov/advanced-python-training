@@ -12,15 +12,14 @@ restaurant = Semaphore(WAITERS_COUNT)
 def time_to_process():
     return randint(0,5)
 
-def customer():
-    print('Waiting on the queue...')
+def customer(number, time_to_process):
+    print('[Customer-%d]: Waiting on the queue...'% number)
     with restaurant:
-        print('Buying some stuff...')
-        time_to_wait = time_to_process()
-        sleep(time_to_wait)
-    print('Done!')
+        print('[Customer-%d]: Buying some stuff...'% number)
+        sleep(time_to_process)
+    print('[Customer-%d]: Done!'% number)
 
 
-customers = [Thread(target=customer) for i in range(CUSTOMER_COUNT)]
+customers = [Thread(target=customer, args=(i, time_to_process())) for i in range(CUSTOMER_COUNT)]
 [customer.start() for customer in customers]
 [customer.join() for customer in customers]
